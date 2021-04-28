@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+        crossorigin="anonymous"
+    />
+    <style src="./assets/style.css"></style>
+    <title>Weather Dashboard</title>
+</head>
+<body class="bg-dark">
+    <header class="row justify-content-center bg-info text-warning"><h1 class="align-self-center">Weather Dashboard</h1></header>
+    <main class="row col-12 h-100 mt-4">
+       <div class="col col-4 container h-100">
+            <form>
+                <h4 class="text-warning">Search for a City:</h4>
+                <input id="search-input" class="col col-12 mb-1 rounded" >
+                <button id="search"class="col col-12 btn btn-warning">Search</button>
+            </form>
+            <div class="favorites container bg-warning mt-2 p-1 h-100 rounded border border-info">
+                <div id class="col">
+
+                </div>
+                <!-- favorite cities are appended here -->
+            </div>
+        </div>
+        <div class="col col-8 container w-75 p-3 h-80">
+            <div class="row bg-warning h-75 rounded border border-info">
+                <div>
+                    <p class="col">
+                        <h3 class="ml-3 p-2 " id="city-append">City:<span></span></h3>
+                        <h5 class="ml-3 p-2 " id="temp">Tempurature:<span></span></h5>
+                        <h5 class="ml-3 p-2 " id="wind">Wind:<span></span></h5>
+                        <h5 class="ml-3 p-2 " id="uv">UV Index:<span></span></h5>
+                        <h5 class="ml-3 p-2 " id="hum">Humidity:<span></span></h5>
+                    </p>
+                </div>
+                
+                <!-- city name and date, tempurature, wind, UV index and humidity appended here -->
+            </div>
+            <div class="row forecast bg-warning mt-3 rounded border border-info">
+                <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos unde earum culpa molestias sunt consequatur nihil error aliquam ipsam nulla! Aliquam minima, qui inventore iure aperiam sunt. Possimus, eius quas? test content 2</div>
+                <!-- five day forecast is appended here -->
+            </div>
+        </div>
+    </main>
+    <footer class="fixed-bottom bg-info">
+        <h4 class="text-warning"><span>Uinta Crypto Inc.</span></h4>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="./assets/script.js"></script>
+</body>
+</html>
