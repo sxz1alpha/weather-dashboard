@@ -1,17 +1,18 @@
 // global variables and constants
-// var cities = [{
-//     city:"salt lake city",
-//     lat: " ",
-//     lon: "" }];
+var cities = [{
+    city:"",
+    lat: "",
+    lon: "" }];
 var cities = [];
-// const oneCallApiKey = "081e711590f1083ac8b437b34a9f78c3";
-// let lat = 40.758701;
-// let lon = -111.876183;
+const oneCallApiKey = "081e711590f1083ac8b437b34a9f78c3";
+const googleApiKey = "AIzaSyBycKmZ3ItZc-o4hHdmPv24SdISVO50Bu4";
+let lat = 40.758701;
+let lon = -111.876183;
 
 //callback to display the google api data
 // const geoCoord = function() {
-//   fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${}&key=${}`)
-// }
+//   fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${}&key=${googleApiKey}`)
+// };
 
 //make a geo location pull from the google api
 
@@ -55,7 +56,7 @@ var cities = [];
 
 $(`#search`).click(function(event) {
     event.preventDefault();
-    // geoCoords();
+    geoCoords();
     let city = $(`#query`).val();
     cities.push(city);
     $(`.favorites`).append(`

@@ -20,36 +20,43 @@
 <body class="bg-dark">
     <header class="row justify-content-center bg-info text-warning"><h1 class="align-self-center">Weather Dashboard</h1></header>
     <main class="row col-12 h-100 mt-4">
-       <div class="col col-4 container h-100">
-            <form>
+       <div class="col col-12 col-lg-4 container h-100">
+            <form class="col col-10 col-lg-12 container ">
                 <h4 class="text-warning">Search for a City:</h4>
-                <input id="search-input" class="col col-12 mb-1 rounded" >
-                <button id="search"class="col col-12 btn btn-warning">Search</button>
+                <input id="search-input" class="col col-10 col-lg-12 mb-1 rounded" >
+                <button id="search"class="col col-10 col-lg-12 btn btn-warning"><h4>Search <i class="fas fa-search"></i></h4></button>
             </form>
-            <div class="favorites container bg-warning mt-2 p-1 h-100 rounded border border-info">
+            <div class="col col-10 col-lg-12 favorites container bg-warning mt-2 p-1 h-100 rounded border border-info">
                 <div id class="col">
 
                 </div>
                 <!-- favorite cities are appended here -->
             </div>
         </div>
-        <div class="col col-8 container w-75 p-3 h-80">
-            <div class="row bg-warning h-75 rounded border border-info">
+        <div class="col col-10 col-lg-7 container w-75 p-3 h-80">
+            <div class="row row-lg-10 bg-warning h-90 rounded border border-info">
                 <div>
-                    <p class="col">
+                    <p class="col-12 col-lg-6">
                         <h3 class="ml-3 p-2 " id="city-append">City:<span></span></h3>
                         <h5 class="ml-3 p-2 " id="temp">Tempurature:<span></span></h5>
                         <h5 class="ml-3 p-2 " id="wind">Wind:<span></span></h5>
                         <h5 class="ml-3 p-2 " id="uv">UV Index:<span></span></h5>
                         <h5 class="ml-3 p-2 " id="hum">Humidity:<span></span></h5>
                     </p>
+                    <div id="weather-icon" class="col col-12 col-lg-6">
+                        <i class="fas fa-cloud-showers-heavy"></i>
+                    </div>
                 </div>
                 
                 <!-- city name and date, tempurature, wind, UV index and humidity appended here -->
             </div>
-            <div class="row forecast bg-warning mt-3 rounded border border-info">
-                <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos unde earum culpa molestias sunt consequatur nihil error aliquam ipsam nulla! Aliquam minima, qui inventore iure aperiam sunt. Possimus, eius quas? test content 2</div>
-                <!-- five day forecast is appended here -->
+            <div class="row forecast bg-warning mt-3 rounded border border-info justify-content-center">
+                <div class="col col-10 col-md-2"></div>
+                <div class="col col-10 col-md-2"></div>
+                <div class="col col-10 col-md-2"></div>
+                <div class="col col-10 col-md-2"></div>
+                <div class="col col-10 col-md-2"></div>
+                
             </div>
         </div>
     </main>
