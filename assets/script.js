@@ -1,37 +1,86 @@
 // global variables and constants
-var cities = [{
-    city:"",
-    lat: "",
-    lon: "" }];
-var cities = [];
+
+const cities = []
+
 const oneCallApiKey = "081e711590f1083ac8b437b34a9f78c3";
-const googleApiKey = "AIzaSyBycKmZ3ItZc-o4hHdmPv24SdISVO50Bu4";
-let lat = 40.758701;
-let lon = -111.876183;
+
+const IMPERIAL = true;
 
 //callback to display the google api data
-// const geoCoord = function() {
-//   fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${}&key=${googleApiKey}`)
-// };
+const geoCoord = async function() {
+  let searchTerm = $(`#search-input`).val();
+  console.log(searchTerm);
+  await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchTerm}&limit=1&appid=${oneCallApiKey}`)
+  .then((response) => {
+    response.json().then(res => {
+      let data = res[0]
+      
+      let city = {
+        cityName: data.name,
+        lat: data.lat,
+        lon: data.lon
+      }
+      cities.push(city);
+      fetchCurrentWeather(city)
+      .then(weather => showWeather(weather));
+      return city;
+      // console.log(cities);
+    })
+    
+  })
+  .catch(error => {
+    console.error(error);
+  })  
+  
+};
 
-//make a geo location pull from the google api
+
 
 //callback to display the one call api data
-// const callBack = data => {
 
-//     for (let i = 0; i < data.length; i++) {
-//         console.log(data[i])
-//     }
-// };
 
 //make search functionality that pulls an array of cities from the api
-// fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${oneCallApiKey}`)
-//     .then(response => response.json())
-//     .catch((err) => {
-//         console.log(err);
-//     })
-//     .then(data => callBack(data))
 
+const fetchCurrentWeather = async (city) => {
+
+  // let vari = cities.slice(0, 1);
+  // console.log(cities);
+  // console.log(vari);
+
+  // city = {
+  //   lat: "",
+  //   lon: ""
+  // }
+  const lat = city.lat;
+  const lon = city.lon;
+
+    let data = await fetch(`https://api.openweathermap.org/data/2.5/onecall?units=${IMPERIAL ? "imperial" : "metric"}&lat=${lat}&lon=${lon}&appid=${oneCallApiKey}`)
+      .then((response) => response.json())
+      .then(data => {
+        return data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+    return data;
+
+
+};
+
+
+
+const showWeather = weather => {
+
+  //appends the data from the api to the id fields in the main display container
+  $('#temp span').html(`${weather.current.temp} ${IMPERIAL ? "˚F" : "˚C"}`);
+  $('#wind span').html(`${weather.current.wind_speed} ${IMPERIAL ? "mph" : "m/s"} `);
+  $('#uv span').html(weather.current.uvi);
+  $('#hum span').html(`${weather.current.humidity} % `);
+
+  // appends the data from the forecast api to the data fields in the 5 day containers
+
+}
 // make an for loop that cycles through all of the array objects and runs 2 other functions
 
     // saveLocal();
@@ -54,15 +103,28 @@ let lon = -111.876183;
 // make an on click function that clears the display and forecast sections and re-applys the data and 5 day forecast
 // possible a second array need to look at api data
 
-$(`#search`).click(function(event) {
+$(`#search`).click(async function(event) {
     event.preventDefault();
-    geoCoords();
-    let city = $(`#query`).val();
-    cities.push(city);
+    let search_input = $(`#search-input`).val();
+    
+    geoCoord();
+
+    
+    
+    // if (city in cities) {
+    //   fetchWeather(cities[city])
+    // } else {
+    //   cities[city] = geoCoord(city);
+    // }
+
     $(`.favorites`).append(`
-      <button class="col col-12 btn btn-info mt-2 mb-2 text-dark border-dark">${city}</button>
-    `).click(function() {
-      //   fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${}&key=${}`)
-// }
+      <button class="col col-12 btn btn-info mt-2 mb-2 text-dark border-dark"><i class="fa fa-building-o" aria-hidden="true"></i>${search_input}</button>
+    `).click((e) => {
+      console.log(e, 'hello');
     })
 });
+
+// blue buttons
+// search cities for city and run with city data
+// fetchCurrentweather();
+// fetchFiveDay();
