@@ -65,7 +65,7 @@ const showCity = (cityName) => {
 }
 
 const showWeather = function(weather) {
-  
+  let weatherIcon = '';
   //appends the data from the api to the id fields in the main display container
   $('#date span').html(moment().calendar('L'));
   $('#temp span').html(`${weather.current.temp} ${IMPERIAL ? "˚F" : "˚C"}`);
@@ -74,31 +74,18 @@ const showWeather = function(weather) {
   $('#hum span').html(`${weather.current.humidity} % `);
   
   // appends the data from the forecast api to the data fields in the 5 day containers
-  //day 1
-  $('#fivedate1').html(moment().add(1, 'days').calendar('L'));
-  $('#fivetemp1 span').html(`${weather.daily[0].temp.day} ${IMPERIAL ? "˚F" : "˚C"}`)
-  $('#fivewind1 span').html(`${weather.daily[0].wind_speed} ${IMPERIAL ? "mph" : "m/s"}`)
-  $('#fivehum1 span').html(`${weather.daily[0].humidity}`)
-  //day 2
-  $('#fivedate2').html(moment().add(2, 'days').calendar('L'));
-  $('#fivetemp2 span').html(`${weather.daily[1].temp.day} ${IMPERIAL ? "˚F" : "˚C"}`)
-  $('#fivewind2 span').html(`${weather.daily[1].wind_speed} ${IMPERIAL ? "mph" : "m/s"}`)
-  $('#fivehum2 span').html(`${weather.daily[1].humidity} %`)
-  //day 3
-  $('#fivedate3').html(moment().add(3, 'days').calendar('L'));
-  $('#fivetemp3 span').html(`${weather.daily[2].temp.day} ${IMPERIAL ? "˚F" : "˚C"}`)
-  $('#fivewind3 span').html(`${weather.daily[2].wind_speed} ${IMPERIAL ? "mph" : "m/s"}`)
-  $('#fivehum3 span').html(`${weather.daily[2].humidity} %`)
-  //day 4
-  $('#fivedate4').html(moment().add(4, 'days').calendar('L'));
-  $('#fivetemp4 span').html(`${weather.daily[3].temp.day} ${IMPERIAL ? "˚F" : "˚C"}`)
-  $('#fivewind4 span').html(`${weather.daily[3].wind_speed} ${IMPERIAL ? "mph" : "m/s"}`)
-  $('#fivehum4 span').html(`${weather.daily[3].humidity} %`)
-  //day 5
-  $('#fivedate5').html(moment().add(5, 'days').calendar('L'));
-  $('#fivetemp5 span').html(`${weather.daily[4].temp.day} ${IMPERIAL ? "˚F" : "˚C"}`)
-  $('#fivewind5 span').html(`${weather.daily[4].wind_speed} ${IMPERIAL ? "mph" : "m/s"}`)
-  $('#fivehum5 span').html(`${weather.daily[4].humidity} %`)
+  for (let i = 0; i < 5; i++) {
+    $(`#fivedate${[i]}`).html(moment().add(1, 'days').calendar('L'));
+    $(`#fivetemp${[i]} span`).html(`${weather.daily[i].temp.day} ${IMPERIAL ? "˚F" : "˚C"}`)
+    $(`#fivewind${[i]} span`).html(`${weather.daily[i].wind_speed} ${IMPERIAL ? "mph" : "m/s"}`)
+    $(`#fivehum${[i]} span`).html(`${weather.daily[i].humidity}`)
+  }
+
+  if (`${weather.current.weather[0].main}` == `Clear`) {
+    $(`#weather-icon`).append(`<i class="fas fa-cloud-showers-heavy fa-10x m-5"></i>`);
+  } else {
+    $(`#weather-icon`).html(``)
+  }
 }
 // make an for loop that cycles through all of the array objects and runs 2 other functions
 
