@@ -107,6 +107,8 @@ const showWeather = function(weather) {
   $('#wind span').html(`${weather.current.wind_speed} ${IMPERIAL ? "mph" : "m/s"} `);
   $('#uv span').html(weather.current.uvi);
   $('#hum span').html(`${weather.current.humidity} % `);
+  $('#weather-description').html(`${weather.current.weather[0].description}`)
+  
   
   //thunderstorm codes
   if (current == ts) {
@@ -141,11 +143,68 @@ const showWeather = function(weather) {
   
   // appends the data from the forecast api to the data fields in the 5 day containers
   for (let i = 0; i < 5; i++) {
+    
+    let current = `${weather.daily[i].weather[0].id}`
+    let ts = tsArray.find(findTsCode);
+    let dz = dzArray.find(findDzCode);
+    let ra = raArray.find(findRaCode);
+    let sn = snArray.find(findSnCode);
+    let at = atArray.find(findAtCode);
+    let cl = clArray.find(findClCode);
+  
+    function findTsCode(code) {
+      return code === current
+    }
+    function findDzCode(code) {
+      return code === current
+    }
+    function findRaCode(code) {
+      return code === current
+    }
+    function findSnCode(code) {
+      return code === current
+    }
+    function findAtCode(code) {
+      return code === current
+    }
+    function findClCode(code) {
+      return code === current
+    }
+    
     $(`#fivedate${[i]}`).html(moment().add(1, 'days').calendar('L'));
     $(`#fivetemp${[i]} span`).html(`${weather.daily[i].temp.day} ${IMPERIAL ? "˚F" : "˚C"}`)
     $(`#fivewind${[i]} span`).html(`${weather.daily[i].wind_speed} ${IMPERIAL ? "mph" : "m/s"}`)
     $(`#fivehum${[i]} span`).html(`${weather.daily[i].humidity}`)
-  
+    
+    if (current == ts) {
+      $(`#weather-icon${[i]}`).html(`<i class="fas fa-poo-storm"></i>`);
+      console.log(current)
+    } 
+    //drizzle codes
+    else if (current == dz) {
+      $(`#weather-icon${[i]}`).html(`<i class="fas fa-cloud-rain"></i>`);
+      console.log(current)
+    }
+    //rain codes
+    else if (current == ra) {
+      $(`#weather-icon${[i]}`).html(`<i class="fas fa-cloud-showers-heavy"></i>`);
+    }
+    //snow codes
+    else if (current == sn) {
+      $(`#weather-icon${[i]}`).html(`<i class="fas fa-snowflake"></i>`);
+    }
+    //atmosphere codes
+    else if (current == at) {
+      $(`#weather-icon${[i]}`).html(`<i class="fas fa-smog"></i>`);
+    }
+    //cloud codes
+    else if (current == cl) {
+      $(`#weather-icon${[i]}`).html(`<i class="fas fa-cloud"></i>`);
+    }
+    //clear codes
+    else {
+      $(`#weather-icon${[i]}`).html(`<i class="fas fa-sun"></i>`);
+    }
   
   }
 }
