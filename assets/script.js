@@ -3,9 +3,9 @@
 const cities = []
 
 const oneCallApiKey = "081e711590f1083ac8b437b34a9f78c3";
-
+//units
 const IMPERIAL = true;
-
+//weather codes arrays
 const tsArray = ['200', '201', '202', '210', '211', '212', '221', '230', '231']
 const dzArray = ['300', '301', '302', '310', '311', '312', '313', '314', '321']
 const raArray = ['500', '501', '502', '503', '504', '520', '521', '522', '531']
@@ -74,6 +74,7 @@ const showCity = (cityName) => {
 
 const showWeather = function(weather) {
   
+  // icon code array search function for current weather
   let current = `${weather.current.weather[0].id}`
   let ts = tsArray.find(findTsCode);
   let dz = dzArray.find(findDzCode);
@@ -81,7 +82,7 @@ const showWeather = function(weather) {
   let sn = snArray.find(findSnCode);
   let at = atArray.find(findAtCode);
   let cl = clArray.find(findClCode);
-
+  
   function findTsCode(code) {
     return code === current
   }
@@ -100,7 +101,7 @@ const showWeather = function(weather) {
   function findClCode(code) {
     return code === current
   }
-
+  
   //appends the data from the api to the id fields in the main display container
   $('#date span').html(moment().calendar('L'));
   $('#temp span').html(`${weather.current.temp} ${IMPERIAL ? "˚F" : "˚C"}`);
@@ -109,7 +110,16 @@ const showWeather = function(weather) {
   $('#hum span').html(`${weather.current.humidity} % `);
   $('#weather-description').html(`${weather.current.weather[0].description}`)
   
-  
+  //adjusts the UV index background color according to the value
+  if (weather.current.uvi < 3) {
+    $(`#uv span`).addClass(`bg-success`).removeClass(`bg-warning`).removeClass('bg-danger')
+  } else if (weather.current.uvi < 6 && weather.current.uvi > 3) {
+    $(`#uv span`).addClass(`bg-warning`).removeClass(`bg-success`).removeClass('bg-danger')
+  } else {
+    $(`#uv span`).addClass(`bg-danger`).removeClass(`bg-success`).removeClass('bg-warning')
+  }
+
+  //determines which weather icon to append in the current weather icon section
   //thunderstorm codes
   if (current == ts) {
     $(`#weather-icon`).html(`<i class="fas fa-poo-storm fa-10x m-5"></i>`);
@@ -143,8 +153,8 @@ const showWeather = function(weather) {
   
   // appends the data from the forecast api to the data fields in the 5 day containers
   for (let i = 0; i < 5; i++) {
-    
-    let current = `${weather.daily[i].weather[0].id}`
+    //icon array search functionality for daily weather
+    let daily = `${weather.daily[i].weather[0].id}`
     let ts = tsArray.find(findTsCode);
     let dz = dzArray.find(findDzCode);
     let ra = raArray.find(findRaCode);
@@ -153,22 +163,22 @@ const showWeather = function(weather) {
     let cl = clArray.find(findClCode);
   
     function findTsCode(code) {
-      return code === current
+      return code === daily
     }
     function findDzCode(code) {
-      return code === current
+      return code === daily
     }
     function findRaCode(code) {
-      return code === current
+      return code === daily
     }
     function findSnCode(code) {
-      return code === current
+      return code === daily
     }
     function findAtCode(code) {
-      return code === current
+      return code === daily
     }
     function findClCode(code) {
-      return code === current
+      return code === daily
     }
     
     $(`#fivedate${[i]}`).html(moment().add(1, 'days').calendar('L'));
@@ -176,29 +186,29 @@ const showWeather = function(weather) {
     $(`#fivewind${[i]} span`).html(`${weather.daily[i].wind_speed} ${IMPERIAL ? "mph" : "m/s"}`)
     $(`#fivehum${[i]} span`).html(`${weather.daily[i].humidity}`)
     
-    if (current == ts) {
+    if (daily == ts) {
       $(`#weather-icon${[i]}`).html(`<i class="fas fa-poo-storm"></i>`);
-      console.log(current)
+      console.log(daily)
     } 
     //drizzle codes
-    else if (current == dz) {
+    else if (daily == dz) {
       $(`#weather-icon${[i]}`).html(`<i class="fas fa-cloud-rain"></i>`);
-      console.log(current)
+      console.log(daily)
     }
     //rain codes
-    else if (current == ra) {
+    else if (daily == ra) {
       $(`#weather-icon${[i]}`).html(`<i class="fas fa-cloud-showers-heavy"></i>`);
     }
     //snow codes
-    else if (current == sn) {
+    else if (daily == sn) {
       $(`#weather-icon${[i]}`).html(`<i class="fas fa-snowflake"></i>`);
     }
     //atmosphere codes
-    else if (current == at) {
+    else if (daily == at) {
       $(`#weather-icon${[i]}`).html(`<i class="fas fa-smog"></i>`);
     }
     //cloud codes
-    else if (current == cl) {
+    else if (daily == cl) {
       $(`#weather-icon${[i]}`).html(`<i class="fas fa-cloud"></i>`);
     }
     //clear codes

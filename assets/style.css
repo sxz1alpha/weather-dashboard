@@ -1,2 +1,18 @@
 
+.favorable {
+    background-color: green;
+    border-radius: 15px;
+    z-index: 3;
+}
 
+.moderate {
+    background-color: yellow;
+    border-radius: 15px;
+    z-index: 3;
+}
+
+.severe {
+    background-color: red;
+    border-radius: 15px;
+    z-index: 3;
+}
