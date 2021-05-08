@@ -7,6 +7,7 @@ This is a simple weather dashboard that allows users to search for a city and di
 
 _link to deployed website:_
 
-![image](https://user-images.githubusercontent.com/80006081/117521349-86eceb80-af6a-11eb-978b-0368fcee38ed.png)
+![image](https://user-images.githubusercontent.com/80006081/117521381-ba2f7a80-af6a-11eb-9864-fb577983c7e0.png)
+
 
 
