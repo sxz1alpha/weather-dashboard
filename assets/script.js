@@ -6,6 +6,14 @@ const oneCallApiKey = "081e711590f1083ac8b437b34a9f78c3";
 
 const IMPERIAL = true;
 
+const tsArray = ['200', '201', '202', '210', '211', '212', '221', '230', '231']
+const dzArray = ['300', '301', '302', '310', '311', '312', '313', '314', '321']
+const raArray = ['500', '501', '502', '503', '504', '520', '521', '522', '531']
+const snArray = ['600', '601', '602', '611', '612', '613', '615', '616', '620', '621', '622']
+const atArray = ['701', '711', '721', '731', '741', '751', '761', '762', '771', '781']
+const clArray = ['801', '802', '803', '804']
+
+
 //callback to display the google api data
 const geoCoord = async function() {
   let searchTerm = $(`#search-input`).val();
@@ -66,6 +74,33 @@ const showCity = (cityName) => {
 
 const showWeather = function(weather) {
   
+  let current = `${weather.current.weather[0].id}`
+  let ts = tsArray.find(findTsCode);
+  let dz = dzArray.find(findDzCode);
+  let ra = raArray.find(findRaCode);
+  let sn = snArray.find(findSnCode);
+  let at = atArray.find(findAtCode);
+  let cl = clArray.find(findClCode);
+
+  function findTsCode(code) {
+    return code === current
+  }
+  function findDzCode(code) {
+    return code === current
+  }
+  function findRaCode(code) {
+    return code === current
+  }
+  function findSnCode(code) {
+    return code === current
+  }
+  function findAtCode(code) {
+    return code === current
+  }
+  function findClCode(code) {
+    return code === current
+  }
+
   //appends the data from the api to the id fields in the main display container
   $('#date span').html(moment().calendar('L'));
   $('#temp span').html(`${weather.current.temp} ${IMPERIAL ? "˚F" : "˚C"}`);
@@ -74,30 +109,30 @@ const showWeather = function(weather) {
   $('#hum span').html(`${weather.current.humidity} % `);
   
   //thunderstorm codes
-  if (`${weather.current.weather[0].id}` == '200' || '201' || '202' || '210' || '211' || '212' || '221' || '230' || '231') {
+  if (current == ts) {
     $(`#weather-icon`).html(`<i class="fas fa-poo-storm fa-10x m-5"></i>`);
-    console.log(`${weather.current.weather[0].id}`)
+    console.log(current)
   } 
   //drizzle codes
-  else if (`${weather.current.weather[0].id}` == '300' || '301' || '302' || '310' || '311' || '312' || '313' || '314' || '321') {
+  else if (current == dz) {
     $(`#weather-icon`).html(`<i class="fas fa-cloud-rain fa-10x m-5"></i>`);
-    console.log(`${weather.current.weather[0].id}`)
+    console.log(current)
   }
   //rain codes
-  else if (`${weather.current.weather[0].id}` == '500' || '501' || '502' || '503' || '504' || '520' || '521' || '522' || '531') {
+  else if (current == ra) {
     $(`#weather-icon`).html(`<i class="fas fa-cloud-showers-heavy fa-10x m-5"></i>`);
   }
   //snow codes
-  else if (`${weather.current.weather[0].id}` == '600' || '601' || '602' || '611' || '612' || '613' || '615' || '616' || '620' || '621' || '622') {
+  else if (current == sn) {
     $(`#weather-icon`).html(`<i class="fas fa-snowflake fa-10x m-5"></i>`);
   }
   //atmosphere codes
-  else if (`${weather.current.weather[0].id}` == '701' || '711' || '721' || '731' || '741' || '751' || '761' || '762' || '771' || '781') {
+  else if (current == at) {
     $(`#weather-icon`).html(`<i class="fas fa-smog fa-10x m-5"></i>`);
   }
   //cloud codes
-  else if (`${weather.current.weather[0].id}` == '801' || '802' || '803' || '804') {
-    $(`#weather-icon`).html(`<i class="fas fa-cloud ga-10x m-5"></i>`);
+  else if (current == cl) {
+    $(`#weather-icon`).html(`<i class="fas fa-cloud fa-10x m-5"></i>`);
   }
   //clear codes
   else {
@@ -110,6 +145,8 @@ const showWeather = function(weather) {
     $(`#fivetemp${[i]} span`).html(`${weather.daily[i].temp.day} ${IMPERIAL ? "˚F" : "˚C"}`)
     $(`#fivewind${[i]} span`).html(`${weather.daily[i].wind_speed} ${IMPERIAL ? "mph" : "m/s"}`)
     $(`#fivehum${[i]} span`).html(`${weather.daily[i].humidity}`)
+  
+  
   }
 }
 // make an for loop that cycles through all of the array objects and runs 2 other functions
