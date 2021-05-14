@@ -18,7 +18,7 @@ const clArray = ['801', '802', '803', '804']
 const geoCoord = async function(search_input) {
   let searchTerm = search_input
   
-  await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchTerm}&limit=1&appid=${oneCallApiKey}`)
+  await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${searchTerm}&limit=1&appid=${oneCallApiKey}`)
   .then((response) => {
     response.json().then(res => {
       let data = res[0]
