@@ -242,12 +242,8 @@ $(`#search`).click(async function(event) {
   
   //stops the page reload  
   event.preventDefault();
-    if (search_input in cities) {
-      console.log('if inside')  
-      fetchWeather(cities[search_input]);
-      } else {
-        geoCoord(search_input);
-    }
+
+    geoCoord(search_input);
     appendRecent(search_input);
     
     $(`#city-append span`).html(search_input);
