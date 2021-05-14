@@ -5,6 +5,8 @@ This is a simple weather dashboard that allows users to search for a city and di
 * Dynamic icons to reflect the current and forecast weather
 * Date, tepurature, humidity, windspeed and UV index are all displayed in and easy to read format.
 * UV Index Changes color depending on the severity of the forecast
+* App is fully mobile friendly
+
 
 _link to deployed website:_
 https://sxz1alpha.github.io/weather-dashboard/
