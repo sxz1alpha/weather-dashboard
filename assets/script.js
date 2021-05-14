@@ -1,6 +1,10 @@
 // global variables and constants
 
-const cities = []
+var cities = [
+  {
+    cityName: ''
+  }
+]
 
 const oneCallApiKey = "081e711590f1083ac8b437b34a9f78c3";
 //units
@@ -15,8 +19,8 @@ const clArray = ['801', '802', '803', '804']
 
 
 //callback to display the google api data
-const geoCoord = async function() {
-  let searchTerm = $(`#search-input`).val();
+const geoCoord = async function(search_input) {
+  let searchTerm = search_input
   
   await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchTerm}&limit=1&appid=${oneCallApiKey}`)
   .then((response) => {
@@ -29,10 +33,10 @@ const geoCoord = async function() {
         lon: data.lon
       }
       cities.push(city);
+      saveLocal(city);
       fetchCurrentWeather(city)
       .then(weather => showWeather(weather));
       return city;
-      // console.log(cities);
     })
     
   })
@@ -52,7 +56,7 @@ const fetchCurrentWeather = async (city) => {
   let data = await fetch(`https://api.openweathermap.org/data/2.5/onecall?units=${IMPERIAL ? "imperial" : "metric"}&lat=${lat}&lon=${lon}&appid=${oneCallApiKey}`)
     .then((response) => response.json())
     .then(data => {
-      console.log(data);
+      
       return data;
 
     })
@@ -62,8 +66,6 @@ const fetchCurrentWeather = async (city) => {
     });
 
   return data;
-
-
 };
 
 
@@ -108,7 +110,7 @@ const showWeather = function(weather) {
   $('#wind span').html(`${weather.current.wind_speed} ${IMPERIAL ? "mph" : "m/s"} `);
   $('#uv span').html(weather.current.uvi);
   $('#hum span').html(`${weather.current.humidity} % `);
-  $('#weather-description').html(`${weather.current.weather[0].description}`)
+  $('#weather-description').html(`${weather.current.weather[0].description}`.toUpperCase([0]))
   
   //adjusts the UV index background color according to the value
   if (weather.current.uvi < 3) {
@@ -123,12 +125,12 @@ const showWeather = function(weather) {
   //thunderstorm codes
   if (current == ts) {
     $(`#weather-icon`).html(`<i class="fas fa-poo-storm fa-10x m-5"></i>`);
-    console.log(current)
+ 
   } 
   //drizzle codes
   else if (current == dz) {
     $(`#weather-icon`).html(`<i class="fas fa-cloud-rain fa-10x m-5"></i>`);
-    console.log(current)
+    
   }
   //rain codes
   else if (current == ra) {
@@ -188,12 +190,12 @@ const showWeather = function(weather) {
     
     if (daily == ts) {
       $(`#weather-icon${[i]}`).html(`<i class="fas fa-poo-storm"></i>`);
-      console.log(daily)
+      
     } 
     //drizzle codes
     else if (daily == dz) {
       $(`#weather-icon${[i]}`).html(`<i class="fas fa-cloud-rain"></i>`);
-      console.log(daily)
+      
     }
     //rain codes
     else if (daily == ra) {
@@ -220,56 +222,68 @@ const showWeather = function(weather) {
 }
 // make an for loop that cycles through all of the array objects and runs 2 other functions
 
-    // saveLocal();
     // append
 
 //save to local storage function
-// saveLocal = function() {
-//     localStorage.setItem(city, JSON.stringify(cities));
-// };
+const saveLocal = function() {
+  //makes a new variable = to the cities array constant
+  let data = cities
+
+    localStorage.setItem('cities', JSON.stringify(data));
+};
 
 // load function
-// loadLocal = function() {
-//     cities = JSON.parse(localStorage.getItem("weather"));
-//     //if local storage is null or undevined this creates an empty array
-//     if (!cities) {
-//         cities = [];
-//     }
+const loadLocal = function() {
+   cities = JSON.parse(localStorage.getItem('cities')) || [];
+   for (x in cities){
+    appendRecent(cities[x].cityName);
+   }
+}  
 
-// }
 
-// make an on click function that clears the display and forecast sections and re-applys the data and 5 day forecast
-// possible a second array need to look at api data
-
+// click functionality that submits the search
 $(`#search`).click(async function(event) {
-    event.preventDefault();
-    let search_input = $(`#search-input`).val();
+  //stops the page reload  
+  event.preventDefault();
     
-    geoCoord();
+    let search_input = $(`#search-input`).val();
 
-    // if (city in cities) {
-    //   fetchWeather(cities[city])
-    // } else {
-    //   cities[city] = geoCoord(city);
-    // }
-
-    $(`.favorites`).append(`
-      <button class="col col-12 btn btn-info mt-2 mb-2 text-dark border-dark"><h4>${search_input}</h4></button>
-    `).click((e) => {
+    $(`#city-append span`).html(search_input);
       
-      let cityName = (e.target.outerText);
-      let matchingCity = {}
-      // cycles through all of the object named city in the cities arry and looks for the name property
-      // when it finds one with the same name as the e.target.outerText it overwrites the block scoped
-      //matching cities object with that city object then runs 
-      for (city of cities) {
-        
-        if (city.cityName.toLowerCase() == cityName.toLowerCase()) {
-          matchingCity = city
-        }
-      } 
-      fetchCurrentWeather(matchingCity)
-      .then(weather => showWeather(weather))
-    })
+      console.log(cities);
+      if (city in cities) {
+        return fetchWeather(cities);
+          
+      } else {
+        console.log(cities);
+         geoCoord(search_input);
+         appendRecent(search_input); 
+      }
+      
+    
 });
 
+
+const appendRecent = function(search_input) {
+  $(`.favorites`).append(`
+    <button class="col col-12 btn btn-info mt-2 mb-2 text-dark border-dark"><h4>${search_input}</h4></button>
+  `).click((e) => {
+    
+    let cityName = (e.target.outerText);
+    let matchingCity = {}
+    $(`#city-append span`).html(cityName);
+    
+    // cycles through all of the object named city in the cities arry and looks for the name property
+    // when it finds one with the same name as the e.target.outerText it overwrites the block scoped
+    //matching cities object with that city object then runs 
+    for (city of cities) {
+      
+      if (city.cityName.toLowerCase() == cityName.toLowerCase()) {
+        matchingCity = city
+      }
+    } 
+    fetchCurrentWeather(matchingCity)
+    .then(weather => showWeather(weather))
+  })
+};
+loadLocal();
