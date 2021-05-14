@@ -1,10 +1,6 @@
 // global variables and constants
 
-var cities = [
-  {
-    cityName: ''
-  }
-]
+var cities = []
 
 const oneCallApiKey = "081e711590f1083ac8b437b34a9f78c3";
 //units
@@ -228,7 +224,6 @@ const showWeather = function(weather) {
 const saveLocal = function() {
   //makes a new variable = to the cities array constant
   let data = cities
-
     localStorage.setItem('cities', JSON.stringify(data));
 };
 
@@ -243,25 +238,20 @@ const loadLocal = function() {
 
 // click functionality that submits the search
 $(`#search`).click(async function(event) {
+  let search_input = $(`#search-input`).val();
+  
   //stops the page reload  
   event.preventDefault();
-    
-    let search_input = $(`#search-input`).val();
-
-    $(`#city-append span`).html(search_input);
-      
-      console.log(cities);
-      if (city in cities) {
-        return fetchWeather(cities);
-          
+    if (search_input in cities) {
+      console.log('if inside')  
+      fetchWeather(cities[search_input]);
       } else {
-        console.log(cities);
-         geoCoord(search_input);
-         appendRecent(search_input); 
-      }
-      
+        geoCoord(search_input);
+    }
+    appendRecent(search_input);
     
-});
+    $(`#city-append span`).html(search_input);
+  });
 
 
 const appendRecent = function(search_input) {
